@@ -53,10 +53,10 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(10, 14, 39, 0.8);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .nav-container {
@@ -84,7 +84,7 @@
         }
 
         .nav-links a {
-            color: var(--text-secondary);
+            color: #ffffff;
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 500;
@@ -349,6 +349,11 @@
             font-size: 1rem;
         }
 
+        .contact-item img {
+            width: 24px;
+            height: 24px;
+        }
+
         .contact-item span {
             font-family: 'JetBrains Mono', monospace;
         }
@@ -479,10 +484,10 @@
         <div class="nav-container">
             <a href="#" class="logo">KE</a>
             <ul class="nav-links">
-                <li><a href="#about">//about</a></li>
-                <li><a href="#academics">//academics</a></li>
-                <li><a href="#works">//works</a></li>
-                <li><a href="#contact">//contact</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#academics">Academics</a></li>
+                <li><a href="#works">Works</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -644,16 +649,16 @@
             </div>
             <div class="contact-info fade-in">
                 <div class="contact-item">
-                    <span>📱</span>
-                    <a href="https://wa.me/85261947273">+852 61947273</a>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                    <span>Whatsapp: <a href="https://wa.me/85261947273">+852 61947273</a></span>
                 </div>
                 <div class="contact-item">
-                    <span>💬</span>
-                    <span>Utosphere</span>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/WeChat_logo.svg" alt="WeChat">
+                    <span>Wechat: Utosphere</span>
                 </div>
                 <div class="contact-item">
                     <span>📧</span>
-                    <a href="mailto:zxioke@outlook.com">zxioke@outlook.com</a>
+                    <span>Email: <a href="mailto:zxioke@outlook.com">zxioke@outlook.com</a></span>
                 </div>
             </div>
         </div>
