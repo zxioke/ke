@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenix - AI/XR/HCI Researcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-darker: #050810;
+            --bg-card: #151b3d;
+            --accent-cyan: #00d9ff;
+            --accent-electric: #6366f1;
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            letter-spacing: -0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .hero-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-electric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-electric));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Section Styles */
+        section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 8rem 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            border: 2px solid var(--accent-electric);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+        }
+
+        .about-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text strong {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        /* Academics Section */
+        #academics {
+            background: var(--bg-darker);
+        }
+
+        .academic-grid {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .academic-category {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .academic-category:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .academic-category h3 {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .academic-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .academic-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .academic-item p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .academic-item a {
+            color: var(--accent-electric);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .academic-item a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Works Section */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .work-card {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: transform 0.3s, border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .work-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-cyan);
+        }
+
+        .work-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .work-content {
+            padding: 2rem;
+        }
+
+        .work-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .work-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .work-tag {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.4rem 1rem;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+        }
+
+        /* Contact Section */
+        #contact {
+            background: var(--bg-darker);
+        }
+
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .contact-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-value {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .contact-value a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-value a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .works-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        /* Glitch Effect for Work Cards */
+        .work-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-electric) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .work-card:hover::before {
+            opacity: 0.1;
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-electric));
+            z-index: 1001;
+            transform-origin: left;
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Particle Background -->
+    <canvas id="particles"></canvas>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">KE</a>
+            <ul class="nav-links">
+                <li><a href="#about">//about</a></li>
+                <li><a href="#academics">//academics</a></li>
+                <li><a href="#works">//works</a></li>
+                <li><a href="#contact">//contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-tag">[ RESEARCHER / CREATOR ]</div>
+            <h1 class="hero-title">KENIX<br>XIAO-KE ZENG</h1>
+            <p class="hero-subtitle">AI × XR × HCI • Creating Future Experiences Through Technology</p>
+            <a href="#works" class="hero-cta">EXPLORE WORKS</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-header fade-in">
+            <div class="section-tag">01 // WHO AM I</div>
+            <h2 class="section-title">About Me</h2>
+        </div>
+        <div class="about-content">
+            <div class="about-image fade-in">
+                <img src="img/logo-big.png" alt="Kenix">
+            </div>
+            <div class="about-text fade-in">
+                <p>I'm a researcher at the <strong>School of Creative Media, CityU Hong Kong</strong>, working under Ray LC's guidance.</p>
+                <p>My work explores the creative intersections of <strong>Extended Reality (XR)</strong>, <strong>AI-Generated Content (AIGC)</strong>, and <strong>Brain-Computer Interfaces (BCI)</strong>. I'm passionate about pushing the boundaries of human-computer interaction to create experiences that blend technology with creative expression.</p>
+                <p>As a designer and director, I craft fictional narratives and animated visions of future products, exploring how emerging technologies might reshape our daily lives and creative practices.</p>
+                <p>Currently focusing on <strong>GenAI for gamification</strong>, investigating how artificial intelligence can transform game design and player experiences.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academics Section -->
+    <section id="academics">
+        <div class="section-header fade-in">
+            <div class="section-tag">02 // RESEARCH</div>
+            <h2 class="section-title">Academic Work</h2>
+        </div>
+        <div class="academic-grid">
+            <div class="academic-category fade-in">
+                <h3>Grant</h3>
+                <div class="academic-item">
+                    <p><strong>Future Tense Hong Kong</strong><br>
+                    Hong Kong Art Development Council</p>
+                </div>
+            </div>
+
+            <div class="academic-category fade-in">
+                <h3>Publications</h3>
+                <div class="academic-item">
+                    <p><strong>"Salt is the Soul of Hakka Baked Chicken": Reimagining Traditional Chinese Culinary ICH for Modern Contexts Without Losing Tradition</strong><br>
+                    <em>[C&C 2025]</em><br>
+                    Xiaoke Zeng, Sijia Liu, Fengyihan Wu, Shu Ye, Bowen Liu, Sidney Cheung, Richard ALLEN, Ray LC</p>
+                </div>
+                <div class="academic-item">
+                    <p><strong>"An Image of Ourselves in Our Minds": How College-educated Online Dating Users Construct Profiles for Effective Self Presentation</strong><br>
+                    <em>[<a href="https://dl.acm.org/doi/abs/10.1145/3710929" target="_blank">CSCW 2025</a>]</em><br>
+                    Fan Zhang, Yun Chen, Xiaoke Zeng, Tianqi Wang, Long Ling, Ray LC</p>
+                </div>
+                <div class="academic-item">
+                    <p><strong>Falling Echoes: Expressing the Act of Falling in Dreams Through Generative AI</strong><br>
+                    <em>[ISEA 2024]</em><br>
+                    Sijia Liu, Kexue Fu, Xiaoke Zeng, Ray LC</p>
+                </div>
+            </div>
+
+            <div class="academic-category fade-in">
+                <h3>Art Exhibitions</h3>
+                <div class="academic-item">
+                    <p><strong>Future Tense: A Groundbreaking Exploration of the Intangible Cultural Heritage Through Art and Technology</strong><br>
+                    Ray LC, Richard ALLEN, Sijia Liu, Xiaoke Zeng, Bowen Liu</p>
+                </div>
+                <div class="academic-item">
+                    <p><strong>Carbon Copy - ADAF ONLINE 2024 | 20 YRS ADAF | THE TECHNOS(C)ENE</strong><br>
+                    Ray LC, Lucy Ling, Xiaoke Zeng</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Works Section -->
+    <section id="works">
+        <div class="section-header fade-in">
+            <div class="section-tag">03 // PORTFOLIO</div>
+            <h2 class="section-title">Creative Works</h2>
+        </div>
+        <div class="works-grid">
+            <div class="work-card fade-in">
+                <img src="img/FPIlogo.png" alt="Future Product Inc." class="work-image">
+                <div class="work-content">
+                    <h3 class="work-title">Future Product Inc.</h3>
+                    <p class="work-description">Fictional product IPs exploring future technologies and speculative design scenarios.</p>
+                    <span class="work-tag">SPECULATIVE DESIGN</span>
+                </div>
+            </div>
+
+            <div class="work-card fade-in">
+                <img src="img/octo.gif" alt="OCTO" class="work-image">
+                <div class="work-content">
+                    <h3 class="work-title">OCTO</h3>
+                    <p class="work-description">Brain-Computer Interface for dream reconstruction and AI-powered assistance.</p>
+                    <span class="work-tag">BCI / AI</span>
+                </div>
+            </div>
+
+            <div class="work-card fade-in">
+                <img src="img/mafly.png" alt="MaFly" class="work-image">
+                <div class="work-content">
+                    <h3 class="work-title">MaFly</h3>
+                    <p class="work-description">Take-Copter inspired device that doubles as a cervical traction therapeutic tool.</p>
+                    <span class="work-tag">HEALTH TECH</span>
+                </div>
+            </div>
+
+            <div class="work-card fade-in">
+                <img src="img/neiku.png" alt="NeiKu" class="work-image">
+                <div class="work-content">
+                    <h3 class="work-title">NeiKu</h3>
+                    <p class="work-description">Smart wearable technology designed for personal safety and protection.</p>
+                    <span class="work-tag">WEARABLES</span>
+                </div>
+            </div>
+
+            <div class="work-card fade-in">
+                <img src="img/matoilet.png" alt="Matoilet" class="work-image">
+                <div class="work-content">
+                    <h3 class="work-title">Matoilet</h3>
+                    <p class="work-description">Smart toilet system converting waste into food—cosmos-friendly sustainability.</p>
+                    <span class="work-tag">SUSTAINABILITY</span>
+                </div>
+            </div>
+
+            <div class="work-card fade-in">
+                <img src="img/ZB.png" alt="StrongB" class="work-image">
+                <div class="work-content">
+                    <h3 class="work-title">StrongB</h3>
+                    <p class="work-description">AI-powered robotic arm with neural interface capabilities.</p>
+                    <span class="work-tag">ROBOTICS / BCI</span>
+                </div>
+            </div>
+
+            <div class="work-card fade-in">
+                <img src="img/YOYOBED.png" alt="YoyoBed" class="work-image">
+                <div class="work-content">
+                    <h3 class="work-title">YoyoBed</h3>
+                    <p class="work-description">Magnetic levitation bed featuring intelligent swaying motion for optimal rest.</p>
+                    <span class="work-tag">SMART HOME</span>
+                </div>
+            </div>
+
+            <div class="work-card fade-in">
+                <img src="img/majia.gif" alt="Adult Intern Vest" class="work-image">
+                <div class="work-content">
+                    <h3 class="work-title">Adult Intern Vest</h3>
+                    <p class="work-description">Exploring emerging adulthood through speculative wearable design.</p>
+                    <span class="work-tag">SOCIAL DESIGN</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-header fade-in">
+            <div class="section-tag">04 // GET IN TOUCH</div>
+            <h2 class="section-title">Contact</h2>
+        </div>
+        <div class="contact-content">
+            <div class="contact-grid">
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-label">WhatsApp</div>
+                    <div class="contact-value"><a href="https://wa.me/85261947273">+852 61947273</a></div>
+                </div>
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">💬</div>
+                    <div class="contact-label">WeChat</div>
+                    <div class="contact-value">Utosphere</div>
+                </div>
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value"><a href="mailto:zxioke@outlook.com">zxioke@outlook.com</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Kenix (Xiao-Ke Zeng) • Researcher & Creator</p>
+    </footer>
+
+    <script>
+        // Particle Background
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(99, 102, 241, 0.5)';
+                ctx.fill();
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            // Draw connections
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(99, 102, 241, ${0.2 * (1 - distance / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        });
+
+        // Fade In on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
