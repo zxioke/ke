@@ -195,12 +195,7 @@
         }
 
         .section-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 1rem;
+            display: none;
         }
 
         .section-title {
@@ -213,13 +208,13 @@
         /* Academics Section */
         .academic-grid {
             display: grid;
-            gap: 3rem;
+            gap: 1.5rem;
         }
 
         .academic-category {
             background: rgba(99, 102, 241, 0.05);
-            padding: 2.5rem;
-            border-radius: 20px;
+            padding: 1.5rem;
+            border-radius: 16px;
             border-left: 4px solid var(--accent-electric);
             transition: all 0.3s;
         }
@@ -233,15 +228,15 @@
         .academic-category h3 {
             font-family: 'JetBrains Mono', monospace;
             color: var(--accent-cyan);
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
         }
 
         .academic-item {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
             border-bottom: 1px solid rgba(99, 102, 241, 0.15);
         }
 
@@ -253,7 +248,8 @@
 
         .academic-item p {
             color: var(--text-secondary);
-            line-height: 1.7;
+            line-height: 1.5;
+            font-size: 0.9rem;
         }
 
         .academic-item a {
@@ -519,14 +515,6 @@
         </div>
         <div class="academic-grid">
             <div class="academic-category fade-in">
-                <h3>Grant</h3>
-                <div class="academic-item">
-                    <p><strong>Future Tense Hong Kong</strong><br>
-                    Hong Kong Art Development Council</p>
-                </div>
-            </div>
-
-            <div class="academic-category fade-in">
                 <h3>Publications</h3>
                 <div class="academic-item">
                     <p><strong>"Salt is the Soul of Hakka Baked Chicken": Reimagining Traditional Chinese Culinary ICH for Modern Contexts Without Losing Tradition</strong><br>
@@ -546,7 +534,11 @@
             </div>
 
             <div class="academic-category fade-in">
-                <h3>Art Exhibitions</h3>
+                <h3>Art Exhibitions & Grant</h3>
+                <div class="academic-item">
+                    <p><strong>Future Tense Hong Kong</strong><br>
+                    Hong Kong Art Development Council</p>
+                </div>
                 <div class="academic-item">
                     <p><strong>Future Tense: A Groundbreaking Exploration of the Intangible Cultural Heritage Through Art and Technology</strong><br>
                     Ray LC, Richard ALLEN, Sijia Liu, Xiaoke Zeng, Bowen Liu</p>
